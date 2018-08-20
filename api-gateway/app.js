@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true})); 
 
-const signUpService = "http://signup.hermes:8080"
+const signUpService = "signup.hermes"
 
 app.route('/')
     .get(function (req, res) {
