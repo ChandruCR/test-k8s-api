@@ -1,32 +1,19 @@
-apiVersion: v1
-kind: Service
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
   name: api-gateway
   namespace: hermes
 spec:
-  selector:
-    app: api-gateway
-  ports:
-  - port: 3000
-    targetPort: 3000
-  type: LoadBalancer
----
- apiVersion: extensions/v1beta1
- kind: Deployment
- metadata:
-   name: api-gateway
-   namespace: hermes
- spec:
-   replicas: 1
-   template:
-     metadata:
-       labels:
-         app: api-gateway
-     spec:
-       containers:
-         - name: api-gateway
-           image: node:6-alpine
-           command: ["/bin/sh"]
-           args: ["-c", "cd /home/node;apk update && apk add ca-certificates && update-ca-certificates && apk add wget;wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/ChandruCR/test-k8s-api/master/api-gateway/app.js;wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/ChandruCR/test-k8s-api/master/api-gateway/package.json;npm install;node app.js"]
-           ports:
-             - containerPort: 3000
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: node:6-alpine
+          command: ["/bin/sh"]
+          args: ["-c", "cd /home/node;apk update && apk add ca-certificates && update-ca-certificates && apk add wget;wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/ChandruCR/test-k8s-api/master/api-gateway/app.js;wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/ChandruCR/test-k8s-api/master/api-gateway/package.json;npm install;npm run start"]
+          ports:
+            - containerPort: 3000
