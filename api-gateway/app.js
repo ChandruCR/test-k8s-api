@@ -1,31 +1,24 @@
 console.log("Running app.js")
 const express = require('express');
+const httpProxy = require('express-http-proxy')
 const request = require('request');
 const app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true})); 
 
-const signUpService = "signup.hermes"
+const userServiceProxy = httpProxy('http://signup.hermes')
 
-app.route('/')
-    .get(function (req, res) {
-        console.log(req)
-        var result = {
-            "test": "Hello World"
-        }
-        res.json(result)
-    })
-app.route('/signup')
-    .post(function (req, res) {
-        console.log("request")
-        console.log(req);
-        request.post(signUpService ).on('response', function(res1) {
-            res1.on('data', function(data1) {
-                res.json(data1)
-            })
-        })
-    })
+app.use((req, res, next) => {
+    console.log("authentication")
+    next()
+})
+
+app.post('/signup', (req, res, next) => {
+    console.log("request")
+    console.log(req);
+    userServiceProxy(req, res, next)
+})
 
 console.log("Listening on 3000")
 app.listen(3000);
