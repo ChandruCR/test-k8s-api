@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true})); 
 
-const userServiceProxy = httpProxy('http://signup.hermes:8080')
+const userServiceProxy = httpProxy('signup.hermes:8080')
 
 app.use((req, res, next) => {
     console.log("authentication")
