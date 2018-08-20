@@ -27,6 +27,6 @@ spec:
          - name: api-gateway
            image: node:6-alpine
            command: ["/bin/sh"]
-           args: ["-c", "cd api-gateway;npm install;node app.js;"]
+           args: ["-c", "cd /home/node;apk update && apk add ca-certificates && update-ca-certificates && apk add wget;wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/ChandruCR/test-k8s-api/master/api-gateway/app.js;wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/ChandruCR/test-k8s-api/master/api-gateway/package.json;npm install;node app.js"]
            ports:
              - containerPort: 3000
