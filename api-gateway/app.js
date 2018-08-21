@@ -39,6 +39,7 @@ app.route("/add")
         console.info("authentication here")
         request.post(addService, req, (error, response, body) => {
             console.info(body)
+            res.statusCode = 201
             res.json(body)
         })
     })
