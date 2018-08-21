@@ -1,4 +1,4 @@
-console.log("Running app.js")
+/*
 const express = require('express');
 const httpProxy = require('express-http-proxy')
 const request = require('request');
@@ -22,3 +22,23 @@ app.post('/add', (req, res, next) => {
 
 console.log("Listening on 3000")
 app.listen(3000);
+*/
+
+const express = require("express")
+const request = require("request")
+const app = express();
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true})); 
+
+const addService = "add.chandru:8080"
+
+app.route("/add")
+    .post( (req, res) => {
+        console.info("authentication here")
+        request.post(addService, req, (error, response, body) => {
+            console.info(body)
+            res.json(body)
+        })
+    })
