@@ -14,7 +14,7 @@ app.use((req, res, next) => {
     next()
 })
 
-app.post('/signup', (req, res, next) => {
+app.post('/add', (req, res, next) => {
     console.log("request")
     console.log(req);
     userServiceProxy(req, res, next)

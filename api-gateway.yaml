@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: api-gateway
-  namespace: hermes
+  namespace: chandru
 spec:
   replicas: 1
   template:
@@ -17,3 +17,16 @@ spec:
           args: ["-c", "cd /home/node;apk update && apk add ca-certificates && update-ca-certificates && apk add wget;wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/ChandruCR/test-k8s-api/master/api-gateway/app.js;wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/ChandruCR/test-k8s-api/master/api-gateway/package.json;npm install;npm start"]
           ports:
             - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway
+  namespace: chandru
+spec:
+  selector:
+    app: api-gateway
+  ports:
+  - port: 3000
+    targetPort: 3000
+  type: LoadBalancer
